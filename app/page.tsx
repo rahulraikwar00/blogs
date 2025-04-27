@@ -4,11 +4,24 @@ import Link from "next/link";
 
 export default function Home() {
   const posts = getBlogPosts();
-  console.log(posts.length);
+
   return (
     <div>
       <div>
         <h1 className="text-3xl font-bold text-center">Rahul's Website</h1>
+        <hr />
+        <ul className="flex justify-center space-x-4">
+          {tagList.map((tag) => {
+            return (
+              <li key={tag}>
+                <Link href={`/tags/${tag}`} className="text-blue-500">
+                  {tag}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+        <hr />
         <div className="space-y-6">
           {posts.map((post) => (
             <div key={post.slug}>
@@ -21,3 +34,25 @@ export default function Home() {
     </div>
   );
 }
+
+const getPostsByTag = (tag: string) => {
+  const posts = getBlogPosts();
+  return posts.filter((post) => post.tag && post.tag.includes(tag));
+};
+
+export const generateStaticParams = async () => {
+  const posts = getBlogPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+};
+
+const tagList = [
+  "tech",
+  "blog",
+  "life",
+  "travel",
+  "music",
+  "philosophy",
+  "books",
+];

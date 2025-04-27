@@ -7,7 +7,7 @@ interface BlogPost {
   date: string;
   slug: string;
   content: string;
-  tag: [];
+  tag: string[];
 }
 
 export default function getBlogPosts(): BlogPost[] {
