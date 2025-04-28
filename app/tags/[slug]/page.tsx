@@ -13,11 +13,11 @@ export default async function TagsPage({
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center">
+      <h1 className="text-3xl font-bold text-center mb-6">
         {slug.charAt(0).toUpperCase() + slug.slice(1)}
       </h1>{" "}
       <hr />
-      <ul className="flex justify-center space-x-4">
+      <ul className="flex justify-center space-x-4 m-4">
         {tagList.map((tag) => {
           return (
             <li key={tag}>
@@ -68,7 +68,7 @@ async function getPost(slug: string) {
 
 const DisplayPosts = ({ posts }: { posts: BlogPost[] }) => {
   return (
-    <div>
+    <div className="space-y-6">
       {posts.map((post: BlogPost) => (
         <div key={post.slug}>
           <Link href={`/posts/${post.slug}`}>{post.title}</Link>

@@ -8,9 +8,11 @@ export default function Home() {
   return (
     <div>
       <div>
-        <h1 className="text-3xl font-bold text-center">Rahul&apos;s Website</h1>
+        <h1 className="text-3xl font-bold text-center mb-6">
+          Rahul&apos;s Website
+        </h1>
         <hr />
-        <ul className="flex justify-center space-x-4">
+        <ul className="flex justify-center space-x-4 m-4">
           {tagList.map((tag) => {
             return (
               <li key={tag}>
@@ -34,13 +36,6 @@ export default function Home() {
     </div>
   );
 }
-
-export const generateStaticParams = async () => {
-  const posts = getBlogPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-};
 
 const tagList = [
   "tech",

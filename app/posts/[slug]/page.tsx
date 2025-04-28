@@ -17,6 +17,27 @@ interface Post {
   date: string;
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<{ title: string; description: string }> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+      description: "The requested post could not be found.",
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.content.slice(0, 150), // Preview of the content
+  };
+}
+
 // Fetch the post based on the slug
 async function getPost(slug: string): Promise<Post | null> {
   const posts = getBlogPosts();
@@ -47,10 +68,16 @@ export default async function PostPage({
   const renderedContent = md.render(post.content);
 
   return (
-    <div>
+    <div className="prose prose-lg">
       <h1>{post.title}</h1>
-      <p>{post.date}</p>
-      <div dangerouslySetInnerHTML={{ __html: renderedContent }} />
+      <hr />
+      <p className="flex justify-between text-md opacity-60 ">
+        <div>{post.date}</div>
+        <div>
+          <Link href="/">See all post</Link>
+        </div>
+      </p>
+      <div className="" dangerouslySetInnerHTML={{ __html: renderedContent }} />
       <Link href="/">Back to home</Link>
     </div>
   );
