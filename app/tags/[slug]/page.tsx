@@ -1,27 +1,21 @@
 import getBlogPosts from "@/lib/posts";
+import { BlogPost } from "@/lib/posts";
 import Link from "next/link";
-
-async function getPost(slug: string) {
-  const posts = getBlogPosts();
-  console.log(slug, posts);
-  const post = posts.filter((post) => post.tag && post.tag.includes(slug));
-  console.log(post);
-  if (!post) {
-    throw new Error("Post not found");
-  }
-  return post;
-}
 
 export default async function TagsPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const post = await getPost(params.slug);
+  const { slug } = await params;
+
+  const post = await getPost(slug);
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center">{params.slug}</h1>
+      <h1 className="text-3xl font-bold text-center">
+        {slug.charAt(0).toUpperCase() + slug.slice(1)}
+      </h1>{" "}
       <hr />
       <ul className="flex justify-center space-x-4">
         {tagList.map((tag) => {
@@ -36,12 +30,11 @@ export default async function TagsPage({
       </ul>
       <hr />
       <div className="space-y-6">
-        {post.map((post) => (
-          <div key={post.slug}>
-            <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-            <p>{post.date}</p>
-          </div>
-        ))}
+        {post.length === 0 ? (
+          <NoPostToDisplay />
+        ) : (
+          <DisplayPosts posts={post} />
+        )}
       </div>
       <Link href="/">Back to home</Link>
     </div>
@@ -57,3 +50,31 @@ const tagList = [
   "philosophy",
   "books",
 ];
+
+const NoPostToDisplay = () => {
+  return <p>No posts found for this tag.</p>;
+};
+
+async function getPost(slug: string) {
+  const posts = getBlogPosts();
+
+  const filteredPosts = posts.filter((post) => post.tag.includes(slug));
+
+  if (filteredPosts.length === 0) {
+    return [];
+  }
+  return filteredPosts;
+}
+
+const DisplayPosts = ({ posts }: { posts: BlogPost[] }) => {
+  return (
+    <div>
+      {posts.map((post: BlogPost) => (
+        <div key={post.slug}>
+          <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+          <p>{post.date}</p>
+        </div>
+      ))}
+    </div>
+  );
+};

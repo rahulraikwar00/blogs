@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div>
       <div>
-        <h1 className="text-3xl font-bold text-center">Rahul's Website</h1>
+        <h1 className="text-3xl font-bold text-center">Rahul&apos;s Website</h1>
         <hr />
         <ul className="flex justify-center space-x-4">
           {tagList.map((tag) => {
@@ -34,11 +34,6 @@ export default function Home() {
     </div>
   );
 }
-
-const getPostsByTag = (tag: string) => {
-  const posts = getBlogPosts();
-  return posts.filter((post) => post.tag && post.tag.includes(tag));
-};
 
 export const generateStaticParams = async () => {
   const posts = getBlogPosts();

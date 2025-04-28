@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-interface BlogPost {
+export interface BlogPost {
   title: string;
   date: string;
   slug: string;
@@ -26,7 +26,7 @@ export default function getBlogPosts(): BlogPost[] {
         date: data.date || "Unknown",
         slug: file.replace(".md", ""),
         content,
-        tag: data.tag || [],
+        tag: Array.isArray(data.tags) ? data.tags : [],
       });
     }
   });
