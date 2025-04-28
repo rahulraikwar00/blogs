@@ -2,14 +2,12 @@ import getBlogPosts from "@/lib/posts";
 import Link from "next/link";
 import MarkdownIt from "markdown-it";
 
-// Initialize Markdown renderer
 const md = new MarkdownIt({
   html: true,
   linkify: true,
   typographer: true,
 });
 
-// Define types for better type safety
 interface Post {
   slug: string;
   title: string;
@@ -71,12 +69,12 @@ export default async function PostPage({
     <div className="prose prose-lg">
       <h1>{post.title}</h1>
       <hr />
-      <p className="flex justify-between text-md opacity-60 ">
+      <div className="flex justify-between text-md opacity-60 ">
         <div>{post.date}</div>
         <div>
           <Link href="/">See all post</Link>
         </div>
-      </p>
+      </div>
       <div className="" dangerouslySetInnerHTML={{ __html: renderedContent }} />
       <Link href="/">Back to home</Link>
     </div>

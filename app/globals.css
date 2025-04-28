@@ -27,11 +27,7 @@
   }
 
   a {
-    color: #2563eb;
-  }
-
-  a:hover {
-    color: #1d4ed8;
+    @apply text-indigo-600  hover:text-indigo-800 transition-colors hover:underline;
   }
 
   hr {
