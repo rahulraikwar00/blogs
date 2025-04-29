@@ -53,30 +53,30 @@ export default async function PostPage({
 
   if (!post) {
     // Handle post not found error (display 404 page or redirect)
-    return (
-      <div>
-        <h1>Post Not Found</h1>
-        <p>The requested post could not be found.</p>
-        <Link href="/">Back to home</Link>
-      </div>
-    );
+    return [];
   }
 
   // Render Markdown content
   const renderedContent = md.render(post.content);
 
   return (
-    <div className="prose prose-lg">
-      <h1>{post.title}</h1>
-      <hr />
-      <div className="flex justify-between text-md opacity-60 ">
-        <div>{post.date}</div>
-        <div>
-          <Link href="/">See all post</Link>
-        </div>
+    <div className="prose prose-lg mx-auto mt-12 mb-12">
+      <h1 className="mb-2">{post.title}</h1>
+      <hr className="my-4" />
+
+      <div className="flex justify-between items-center text-sm text-gray-500 mb-8">
+        <time dateTime={post.date}>{post.date}</time>
+        <Link
+          href="/"
+          className="text-blue-600 hover:text-blue-800 transition-colors duration-200"
+        >
+          See all posts
+        </Link>
       </div>
-      <div className="" dangerouslySetInnerHTML={{ __html: renderedContent }} />
-      <Link href="/">Back to home</Link>
+
+      <article dangerouslySetInnerHTML={{ __html: renderedContent }} />
+
+      <div className="mt-10"></div>
     </div>
   );
 }

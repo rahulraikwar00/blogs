@@ -1,6 +1,9 @@
+import Category from "@/components/catogory";
 import getBlogPosts from "@/lib/posts";
 import { BlogPost } from "@/lib/posts";
 import Link from "next/link";
+import { tagList } from "@/components/catogory";
+import BackToHome from "@/components/backtohome";
 
 export default async function TagsPage({
   params,
@@ -11,29 +14,13 @@ export default async function TagsPage({
 
   const post = await getPost(slug);
 
-  const metadata = await generateMetadata({ params });
-
   return (
     <div className="min-h-screen">
-      <h1 className="text-3xl font-bold text-center mb-6">
+      <h1 className="text-5xl font-bold text-center mb-6 mt-10">
         {slug.charAt(0).toUpperCase() + slug.slice(1)}
       </h1>
       <hr />
-      <ul className="flex justify-center space-x-4 m-4">
-        {tagList.map((tag) => {
-          return (
-            <li key={tag.name}>
-              <Link
-                href={`/tags/${tag.name.toLowerCase()}`}
-                className="text-sm font-semibold"
-                style={{ color: tag.color }}
-              >
-                {tag.name.charAt(0).toUpperCase() + tag.name.slice(1)}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      <Category />
       <hr />
       <div className="space-y-6">
         {post.length === 0 ? (
@@ -42,20 +29,10 @@ export default async function TagsPage({
           <DisplayPosts posts={post} />
         )}
       </div>
-      <Link href="/">Back to home</Link>
+      <BackToHome />
     </div>
   );
 }
-
-const tagList = [
-  { name: "tech", color: "#A7C7E7" },
-  { name: "blog", color: "#F7B7A3" },
-  { name: "life", color: "#C9E4CA" },
-  { name: "travel", color: "#FFD8A9" },
-  { name: "music", color: "#D6CDEA" },
-  { name: "philosophy", color: "#EDE0D4" },
-  { name: "books", color: "#E4D4DC" },
-];
 
 const NoPostToDisplay = () => {
   return <p>No posts found for this tag.</p>;
